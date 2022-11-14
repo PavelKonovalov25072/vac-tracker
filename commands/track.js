@@ -18,13 +18,12 @@ module.exports = {
     const isRegistered = await isRegisteredUser(interaction.user.id);
     if (isRegistered) {
       const username = interaction.options.getString("username");
-      const steamID = await getSteamUser(username);
-      if (steamID == 0) {
+      const steamUser = await getSteamUser(username);
+      if (steamUser == 0) {
         await interaction.reply(Messages.USER_NOT_FOUND);
       } else {
-        await interaction.reply(Messages.USER_FOUND);
+        await interaction.reply("User" + steamUser.steamID);
       }
-
     } else {
       await interaction.reply(Messages.USER_NOT_REGISTERED);
     }

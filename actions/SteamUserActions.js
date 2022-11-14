@@ -1,6 +1,6 @@
 require("dotenv").config();
 axios = require("axios");
-
+const SteamUser = require("../model/SteamUser");
 function steamidToSteam64(steamid) {
   console.log("steamidToSteam64");
   var steam64id = 76561197960265728n;
@@ -60,12 +60,22 @@ async function getSteamID(steamString) {
 }
 
 async function getSteamUser(userstring) {
-  const result = getSteamID(userstring);
-  if (result == 0) {
+  const steamID = await getSteamID(userstring);
+  if (steamID == 0) {
     return 0;
   }
-  
-  return result;
+  const configuration = {
+    method: "get",
+    url: `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${process.env.STEAM_API_KEY}&steamids=${steamID}`,
+  };
+  const response = await axios(configuration);
+  if (response.data.response.players.length == 0) {
+    return 0;
+  }
+
+  // gelen bütün veriyi steamuser modeline atıyoruz
+  const steamUser = new SteamUser(response.data.response.players[0]);
+  return steamUser;
 }
 
 module.exports = {
