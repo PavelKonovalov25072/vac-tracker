@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
 const DiscordUserSchema = new mongoose.Schema({
-    discordId: {
+    ID: {
         type: String,
         required: true,
         unique: true
     },
-    discordUsername: {
+    username: {
         type: String,
         required: true
     },
@@ -14,6 +14,7 @@ const DiscordUserSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     }
+    
 });
 
 module.exports = mongoose.model('DiscordUser', DiscordUserSchema);

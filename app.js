@@ -8,6 +8,7 @@ const { Client, GatewayIntentBits, Collection } = require("discord.js");
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 client.commands = new Collection();
 const commandsPath = path.join(__dirname, "commands");
+const commands = [];
 const commandFiles = fs
   .readdirSync(commandsPath)
   .filter((file) => file.endsWith(".js"));
@@ -15,8 +16,8 @@ const commandFiles = fs
 for (const file of commandFiles) {
   const filePath = path.join(commandsPath, file);
   const command = require(filePath);
-  // Set a new item in the Collection with the key as the command name and the value as the exported module
   if ("data" in command && "execute" in command) {
+    commands.push(command.data.toJSON());
     client.commands.set(command.data.name, command);
     console.log(getTimeForLog() + "Loaded command: " + command.data.name);
   } else {
@@ -34,7 +35,6 @@ client.on("ready", () => {
 client.on("interactionCreate", async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
   const command = interaction.client.commands.get(interaction.commandName);
-
   if (!command) {
     console.error(`No command matching ${interaction.commandName} was found.`);
     return;
@@ -51,6 +51,10 @@ client.on("interactionCreate", async (interaction) => {
   }
 });
 
-// reloadCommands();
+
+
+
+
+reloadCommands(commands);
 dbConnect();
 client.login(process.env.DISCORD_TOKEN);
