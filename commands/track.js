@@ -1,8 +1,14 @@
-const { SlashCommandBuilder } = require("discord.js");
 const { isRegisteredUser } = require("../actions/DiscordUserActions");
 const Messages = require("../constants/Messages");
 const CommandDescription = require("../constants/CommandDescription");
 const { getSteamUser } = require("../actions/SteamUserActions");
+const {
+  SlashCommandBuilder,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+} = require("discord.js");
+var sprintf = require("sprintf-js").sprintf;
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -22,7 +28,23 @@ module.exports = {
       if (steamUser == 0) {
         await interaction.reply(Messages.USER_NOT_FOUND);
       } else {
-        await interaction.reply("User" + steamUser.steamID);
+        if (steamUser.communityvisibilitystate == 3) {
+          const row = new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
+              .setCustomId("trackButton_" + steamUser.steamid)
+              .setLabel("Takip Et!")
+              .setStyle(ButtonStyle.Success)
+          );
+
+          await interaction.reply({
+            content: sprintf(Messages.USER_FOUND, steamUser.personaname),
+            components: [row],
+          });
+        } else {
+          await interaction.reply(
+            sprintf(Messages.USER_PRIVATE, steamUser.personaname)
+          );
+        }
       }
     } else {
       await interaction.reply(Messages.USER_NOT_REGISTERED);

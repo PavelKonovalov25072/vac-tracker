@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const SteamUserSchema = new mongoose.Schema({
-  steamID: {
+  steamid: {
     type: String,
     required: true,
     unique: true,
@@ -10,7 +10,7 @@ const SteamUserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  profileUrl: {
+  profileurl: {
     type: String,
     required: true,
   },
@@ -26,7 +26,10 @@ const SteamUserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-
+  avatarhash: {
+    type: String,
+    required: true,
+  },
   personastate: {
     type: Number,
   },

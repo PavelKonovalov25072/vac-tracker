@@ -4,6 +4,7 @@ const reloadCommands = require("./reloadCommands");
 const getTimeForLog = require("./common/time");
 const fs = require("node:fs");
 const path = require("node:path");
+const Messages = require("./constants/Messages");
 const { Client, GatewayIntentBits, Collection } = require("discord.js");
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 client.commands = new Collection();
@@ -12,6 +13,7 @@ const commands = [];
 const commandFiles = fs
   .readdirSync(commandsPath)
   .filter((file) => file.endsWith(".js"));
+
 
 for (const file of commandFiles) {
   const filePath = path.join(commandsPath, file);
@@ -39,22 +41,36 @@ client.on("interactionCreate", async (interaction) => {
     console.error(`No command matching ${interaction.commandName} was found.`);
     return;
   }
-
   try {
+    // const filter = (i) => i.customId === "primary";
+    const collector = interaction.channel.createMessageComponentCollector({
+      // filter,
+      time: 30000, // 30 saniye içinde tıklanması lazım yoksa kapatıyor
+    });
+    collector.on("collect", async (i) => {
+      // i.customId starts with "trackButton_"
+      if (i.customId.startsWith("trackButton_")) {
+        const steamId = i.customId.split("_")[1];
+        // buraya track işlemini yaz
+        console.log(i)
+        await i.update({
+          content: "Takip ediliyor!",
+          components: [],
+        });
+      }
+    });
+
     await command.execute(interaction);
   } catch (error) {
     console.error(error);
     await interaction.reply({
-      content: "There was an error while executing this command!",
+      content: Messages.COMMAND_ERROR,
       ephemeral: true,
     });
   }
 });
 
-
-
-
-
 reloadCommands(commands);
 dbConnect();
 client.login(process.env.DISCORD_TOKEN);
+
