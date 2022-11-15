@@ -35,7 +35,8 @@ function registerUser(user) {
 async function getDiscordUserFromMongo(discordUserID) {
   const discordUser = await DiscordUser.findOne({
     id: discordUserID,
-  });
+  }).populate("trackers");
+  console.log(discordUser);
   return discordUser;
 }
 

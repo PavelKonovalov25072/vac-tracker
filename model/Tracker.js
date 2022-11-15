@@ -9,6 +9,10 @@ const TrackerSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "SteamUser",
   },
+  steamid : {
+    type: String,
+    required: true
+  },
   createdAt: {
     type: Date,
     default: Date.now,
@@ -45,7 +49,7 @@ const TrackerSchema = new mongoose.Schema({
     type: Date,
     default: null,
   },
-  
+
 });
 
 module.exports = mongoose.model("Tracker", TrackerSchema);

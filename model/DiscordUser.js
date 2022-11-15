@@ -33,8 +33,8 @@ const DiscordUserSchema = new mongoose.Schema({
     trackers: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Tracker'
-    }]
-
+    }],
+    
     
 });
 

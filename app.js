@@ -56,11 +56,24 @@ client.on("interactionCreate", async (interaction) => {
         const steamId = i.customId.split("_")[1];
         const steamUser = await getSteamUserFromMongo(steamId);
         const discordUser = await getDiscordUserFromMongo(i.user.id);
-        trackSteamUser(steamUser, discordUser);
-        await i.update({
-          content: sprintf(Messages.USER_TRACK_NOW, steamUser.personaname),
-          components: [],
-        });
+        const result = await trackSteamUser(steamUser, discordUser);
+        if (result == -1) {
+          await i.update({
+            content: sprintf(
+              Messages.USER_TRACK_ALREADY,
+              steamUser.personaname
+            ),
+            components: [],
+          });
+        } else {
+          await i.update({
+            content: sprintf(
+              Messages.USER_TRACK_SUCCESS,
+              steamUser.personaname
+            ),
+            components: [],
+          });
+        }
       }
     });
 

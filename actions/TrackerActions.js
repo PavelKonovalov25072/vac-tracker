@@ -15,9 +15,17 @@ async function trackSteamUser(steamUser, discordUser) {
     return;
   }
   const player = response.data.players[0];
+  const isTrackerRegistered = discordUser.trackers.find(
+    (tracker) => tracker.steamid == steamUser.steamid
+  );
+  if (isTrackerRegistered) {
+    return -1;
+  }
+
   const tracker = new Tracker({
     discordUser: discordUser._id,
     steamUser: steamUser._id,
+    steamid: steamUser.steamid,
     CommunityBanned: player.CommunityBanned,
     VACBanned: player.VACBanned,
     NumberOfVACBans: player.NumberOfVACBans,
