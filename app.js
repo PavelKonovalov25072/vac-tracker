@@ -48,8 +48,9 @@ client.on("interactionCreate", async (interaction) => {
     // const filter = (i) => i.customId === "primary";
     const collector = interaction.channel.createMessageComponentCollector({
       // filter,
-      time: 30000, // 30 saniye içinde tıklanması lazım yoksa kapatıyor
+      time: 10000, // 10 saniye içinde tıklanması lazım yoksa kapatıyor
     });
+
     collector.on("collect", async (i) => {
       // i.customId starts with "trackButton_"
       if (i.customId.startsWith("trackButton_")) {
@@ -57,7 +58,12 @@ client.on("interactionCreate", async (interaction) => {
         const steamUser = await getSteamUserFromMongo(steamId);
         const discordUser = await getDiscordUserFromMongo(i.user.id);
         const result = await trackSteamUser(steamUser, discordUser);
-        if (result == -1) {
+        if (result) {
+          await i.update({
+            content: sprintf(Messages.USER_TRACK_NOW, steamUser.personaname),
+            components: [],
+          });
+        } else {
           await i.update({
             content: sprintf(
               Messages.USER_TRACK_ALREADY,
@@ -65,18 +71,9 @@ client.on("interactionCreate", async (interaction) => {
             ),
             components: [],
           });
-        } else {
-          await i.update({
-            content: sprintf(
-              Messages.USER_TRACK_SUCCESS,
-              steamUser.personaname
-            ),
-            components: [],
-          });
         }
       }
     });
-
     await command.execute(interaction);
   } catch (error) {
     console.error(error);

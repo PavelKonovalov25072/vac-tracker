@@ -1,9 +1,11 @@
 const DiscordUser = require("../model/DiscordUser");
 
+
+
 function isRegisteredUser(discordUserID) {
   return new Promise((resolve, reject) => {
     DiscordUser.findOne(
-      { discordUserID: discordUserID },
+      { id: discordUserID },
       (err, discordUser) => {
         if (err) {
           reject(err);
@@ -36,7 +38,6 @@ async function getDiscordUserFromMongo(discordUserID) {
   const discordUser = await DiscordUser.findOne({
     id: discordUserID,
   }).populate("trackers");
-  console.log(discordUser);
   return discordUser;
 }
 

@@ -35,11 +35,10 @@ module.exports = {
               .setLabel("Takip Et!")
               .setStyle(ButtonStyle.Success)
           );
-
           await interaction.reply({
             content: sprintf(Messages.USER_FOUND, steamUser.personaname),
             components: [row],
-          });
+          }); 
         } else {
           await interaction.reply(
             sprintf(Messages.USER_PRIVATE, steamUser.personaname)

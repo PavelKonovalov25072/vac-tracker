@@ -1,10 +1,13 @@
 const mongoose = require("mongoose");
 
 const TrackerSchema = new mongoose.Schema({
-  discordUser: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "DiscordUser",
-  },
+  // artık gerek görmedim sebebi ise şu:
+  // discordUser aslında ekleyen kişiyi gösteriyordu fakat bir tracker'ı ben birden fazla discordUser'a ekleyebilirim. öyle olunca çok anlamsız oluyor
+  // ondan dolayı bu attribute'u sildim
+  // discordUser: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: "DiscordUser",
+  // },
   steamUser: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "SteamUser",
