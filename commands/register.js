@@ -15,7 +15,7 @@ module.exports = {
     if (isRegistered) {
       await interaction.reply(Messages.USER_ALREADY_REGISTERED);
     } else {
-      await registerUser(interaction.user.id, interaction.user.username);
+      await registerUser(interaction.user);
       await interaction.reply(Messages.USER_REGISTERED);
     }
   },

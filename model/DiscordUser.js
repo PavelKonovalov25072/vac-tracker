@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const DiscordUserSchema = new mongoose.Schema({
-    ID: {
+    id: {
         type: String,
         required: true,
         unique: true
@@ -13,7 +13,28 @@ const DiscordUserSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now
-    }
+    },
+    bot : {
+        type: Boolean,
+        default: false
+    },
+    avatar: {
+        type: String,
+        default: null
+    },
+    discriminator: {
+        type: String,
+        default: null
+    },
+    system : {
+        type: Boolean,
+        default: false
+    },
+    trackers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Tracker'
+    }]
+
     
 });
 

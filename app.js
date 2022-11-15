@@ -2,9 +2,13 @@ require("dotenv").config();
 const dbConnect = require("./db/dbConnect");
 const reloadCommands = require("./reloadCommands");
 const getTimeForLog = require("./common/time");
+const { getSteamUserFromMongo } = require("./actions/SteamUserActions");
+const { getDiscordUserFromMongo } = require("./actions/DiscordUserActions");
+const { trackSteamUser } = require("./actions/TrackerActions");
 const fs = require("node:fs");
 const path = require("node:path");
 const Messages = require("./constants/Messages");
+var sprintf = require("sprintf-js").sprintf;
 const { Client, GatewayIntentBits, Collection } = require("discord.js");
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 client.commands = new Collection();
@@ -13,7 +17,6 @@ const commands = [];
 const commandFiles = fs
   .readdirSync(commandsPath)
   .filter((file) => file.endsWith(".js"));
-
 
 for (const file of commandFiles) {
   const filePath = path.join(commandsPath, file);
@@ -51,10 +54,11 @@ client.on("interactionCreate", async (interaction) => {
       // i.customId starts with "trackButton_"
       if (i.customId.startsWith("trackButton_")) {
         const steamId = i.customId.split("_")[1];
-        // buraya track işlemini yaz
-        console.log(i)
+        const steamUser = await getSteamUserFromMongo(steamId);
+        const discordUser = await getDiscordUserFromMongo(i.user.id);
+        trackSteamUser(steamUser, discordUser);
         await i.update({
-          content: "Takip ediliyor!",
+          content: sprintf(Messages.USER_TRACK_NOW, steamUser.personaname),
           components: [],
         });
       }
@@ -73,4 +77,3 @@ client.on("interactionCreate", async (interaction) => {
 reloadCommands(commands);
 dbConnect();
 client.login(process.env.DISCORD_TOKEN);
-

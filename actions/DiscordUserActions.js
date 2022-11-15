@@ -19,12 +19,9 @@ function isRegisteredUser(discordUserID) {
   });
 }
 
-function registerUser(discordUserID, discordUsername) {
+function registerUser(user) {
   return new Promise((resolve, reject) => {
-    const discordUser = new DiscordUser({
-      ID: discordUserID,
-      username: discordUsername,
-    });
+    const discordUser = new DiscordUser(user);
     discordUser.save((err) => {
       if (err) {
         reject(err);
@@ -35,7 +32,22 @@ function registerUser(discordUserID, discordUsername) {
   });
 }
 
+async function getDiscordUserFromMongo(discordUserID) {
+  const discordUser = await DiscordUser.findOne({
+    id: discordUserID,
+  });
+  return discordUser;
+}
+
+async function addTrackersToDiscordUser(discordUserID, trackersID) {
+  const discordUser = await getDiscordUserFromMongo(discordUserID);
+  discordUser.trackers.push(trackersID);
+  await discordUser.save();
+}
+
 module.exports = {
   isRegisteredUser,
   registerUser,
+  getDiscordUserFromMongo,
+  addTrackersToDiscordUser,
 };

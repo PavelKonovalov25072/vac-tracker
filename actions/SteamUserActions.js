@@ -1,10 +1,8 @@
 require("dotenv").config();
 axios = require("axios");
 const SteamUser = require("../model/SteamUser");
-const addSteamUserToList = require("../app");
 
 function steamidToSteam64(steamid) {
-  console.log("steamidToSteam64");
   var steam64id = 76561197960265728n;
   var steamidparts = steamid.split(":");
   var steamID = parseInt(steamidparts[2]);
@@ -77,9 +75,22 @@ async function getSteamUser(userstring) {
 
   // gelen bütün veriyi steamuser modeline atıyoruz
   const steamUser = new SteamUser(response.data.response.players[0]);
+  // daha sonra mevcut değilse mongo db ye kaydediyoruz
+  const steamUserFromMongo = await getSteamUserFromMongo(steamID);
+  if (steamUserFromMongo == null) {
+    await steamUser.save();
+  }
+  return steamUser;
+}
+
+async function getSteamUserFromMongo(steamID) {
+  const steamUser = await SteamUser.findOne({
+    steamid: steamID,
+  });
   return steamUser;
 }
 
 module.exports = {
   getSteamUser,
+  getSteamUserFromMongo,
 };
