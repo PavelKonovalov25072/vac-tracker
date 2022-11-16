@@ -1,18 +1,23 @@
 require("dotenv").config();
 axios = require("axios");
+const Messages = require("../constants/Messages");
 // const SteamUser = require("../model/SteamUser");
 // const DiscordUser = require("../model/DiscordUser");
 const Tracker = require("../model/Tracker");
 const { addTrackersToDiscordUser } = require("./DiscordUserActions");
+var sprintf = require("sprintf-js").sprintf;
 
 async function getTrackerFromSteamID(steamID) {
   const tracker = await Tracker.findOne({
     steamid: steamID,
   });
+  if (tracker == null) {
+    return null;
+  }
   return tracker;
 }
 
-async function trackSteamUser(steamUser, discordUser) {
+async function trackSteamUser(steamUser, discordUser, interaction) {
   const isTrackerRegisteredToMongoDb = await getTrackerFromSteamID(
     steamUser.steamid
   );
@@ -21,14 +26,21 @@ async function trackSteamUser(steamUser, discordUser) {
       (tracker) => tracker.steamid == steamUser.steamid
     );
     if (isTrackerRegisteredToDiscordUser) {
-      return false;
+      await interaction.update({
+        content: sprintf(Messages.USER_TRACK_ALREADY, steamUser.personaname),
+        components: [],
+      });
+      return;
     }
 
     await addTrackersToDiscordUser(
-      discordUser.id,
+      discordUser,
       isTrackerRegisteredToMongoDb._id
     );
-    return true;
+    await interaction.update({
+      content: sprintf(Messages.USER_TRACK_NOW, steamUser.personaname),
+      components: [],
+    });
   } else {
     const configuration = {
       method: "get",
@@ -41,7 +53,11 @@ async function trackSteamUser(steamUser, discordUser) {
       (tracker) => tracker.steamid == steamUser.steamid
     );
     if (isTrackerRegisteredToDiscordUser) {
-      return false;
+      await interaction.update({
+        content: sprintf(Messages.USER_TRACK_ALREADY, steamUser.personaname),
+        components: [],
+      });
+      return;
     }
 
     const tracker = new Tracker({
@@ -58,8 +74,11 @@ async function trackSteamUser(steamUser, discordUser) {
     tracker
       .save()
       .then((result) => {
-        addTrackersToDiscordUser(discordUser.id, result._id);
-        return true;
+        addTrackersToDiscordUser(discordUser, result._id);
+        interaction.update({
+          content: sprintf(Messages.USER_TRACK_NOW, steamUser.personaname),
+          components: [],
+        });
       })
       .catch((error) => console.log(error));
   }

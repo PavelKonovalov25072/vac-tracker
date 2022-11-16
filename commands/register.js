@@ -3,6 +3,7 @@ const {
   isRegisteredUser,
   registerUser,
 } = require("../actions/DiscordUserActions");
+var sprintf = require("sprintf-js").sprintf;
 const Messages = require("../constants/Messages");
 const CommandDescription = require("../constants/CommandDescription");
 
@@ -13,10 +14,16 @@ module.exports = {
   async execute(interaction) {
     const isRegistered = await isRegisteredUser(interaction.user.id);
     if (isRegistered) {
-      await interaction.reply(Messages.USER_ALREADY_REGISTERED);
+      await interaction.reply(
+        sprintf(Messages.USER_ALREADY_REGISTERED, isRegistered.username)
+      );
     } else {
-      await registerUser(interaction.user);
-      await interaction.reply(Messages.USER_REGISTERED);
+      const registerResult = await registerUser(interaction.user);
+      if (registerResult) {
+        await interaction.reply(sprintf(Messages.USER_REGISTERED, registerResult.username));
+      } else {
+        await interaction.reply(Messages.USER_REGISTER_FAILED);
+      }
     }
   },
 };

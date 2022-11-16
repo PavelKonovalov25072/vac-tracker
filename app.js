@@ -8,7 +8,7 @@ const { trackSteamUser } = require("./actions/TrackerActions");
 const fs = require("node:fs");
 const path = require("node:path");
 const Messages = require("./constants/Messages");
-var sprintf = require("sprintf-js").sprintf;
+// var sprintf = require("sprintf-js").sprintf;
 const { Client, GatewayIntentBits, Collection } = require("discord.js");
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 client.commands = new Collection();
@@ -39,6 +39,7 @@ client.on("ready", () => {
 
 client.on("interactionCreate", async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
+
   const command = interaction.client.commands.get(interaction.commandName);
   if (!command) {
     console.error(`No command matching ${interaction.commandName} was found.`);
@@ -57,21 +58,8 @@ client.on("interactionCreate", async (interaction) => {
         const steamId = i.customId.split("_")[1];
         const steamUser = await getSteamUserFromMongo(steamId);
         const discordUser = await getDiscordUserFromMongo(i.user.id);
-        const result = await trackSteamUser(steamUser, discordUser);
-        if (result) {
-          await i.update({
-            content: sprintf(Messages.USER_TRACK_NOW, steamUser.personaname),
-            components: [],
-          });
-        } else {
-          await i.update({
-            content: sprintf(
-              Messages.USER_TRACK_ALREADY,
-              steamUser.personaname
-            ),
-            components: [],
-          });
-        }
+        await trackSteamUser(steamUser, discordUser, i); // called twice for some reason
+   
       }
     });
     await command.execute(interaction);

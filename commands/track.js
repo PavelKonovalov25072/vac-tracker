@@ -22,7 +22,8 @@ module.exports = {
     ),
   async execute(interaction) {
     const isRegistered = await isRegisteredUser(interaction.user.id);
-    if (isRegistered) {
+    console.log("isRegistered: " + isRegistered);
+    if (!isRegistered) {
       const username = interaction.options.getString("username");
       const steamUser = await getSteamUser(username);
       if (steamUser == 0) {

@@ -80,7 +80,7 @@ async function getSteamUser(userstring) {
   if (steamUserFromMongo == null) {
     await steamUser.save();
   }
-  return steamUser;
+  return steamUser; 
 }
 
 async function getSteamUserFromMongo(steamID) {

@@ -11,10 +11,11 @@ const TrackerSchema = new mongoose.Schema({
   steamUser: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "SteamUser",
+    unique: true,
   },
   steamid : {
     type: String,
-    required: true
+    required: true,
   },
   createdAt: {
     type: Date,
