@@ -58,8 +58,7 @@ client.on("interactionCreate", async (interaction) => {
         const steamId = i.customId.split("_")[1];
         const steamUser = await getSteamUserFromMongo(steamId);
         const discordUser = await getDiscordUserFromMongo(i.user.id);
-        await trackSteamUser(steamUser, discordUser, i); // called twice for some reason
-   
+        await trackSteamUser(steamUser, discordUser, i);
       }
     });
     await command.execute(interaction);

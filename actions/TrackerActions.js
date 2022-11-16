@@ -60,31 +60,57 @@ async function trackSteamUser(steamUser, discordUser, interaction) {
         components: [],
       });
     } else {
-      const tracker = new Tracker({
-        steamUser: steamUser._id,
-        steamid: steamUser.steamid,
-        CommunityBanned: player.CommunityBanned,
-        VACBanned: player.VACBanned,
-        NumberOfVACBans: player.NumberOfVACBans,
-        DaysSinceLastBan: player.DaysSinceLastBan,
-        NumberOfGameBans: player.NumberOfGameBans,
-        EconomyBan: player.EconomyBan,
-        isBanned: player.VACBanned,
-      });
-      tracker
-        .save()
-        .then((result) => {
-          addTrackersToDiscordUser(discordUser, result._id);
-          interaction.update({
-            content: sprintf(Messages.USER_TRACK_NOW, steamUser.personaname),
-            components: [],
-          });
-        })
-        .catch((error) => console.log(error));
+      if (player.VACBanned) {
+        await interaction.update({
+          content: sprintf(
+            Messages.USER_BANNED_ALREADY,
+            steamUser.personaname,
+            steamUser.steamid,
+            player.DaysSinceLastBan
+          ),
+          components: [],
+        });
+      } else {
+        const tracker = new Tracker({
+          steamUser: steamUser._id,
+          steamid: steamUser.steamid,
+          CommunityBanned: player.CommunityBanned,
+          VACBanned: player.VACBanned,
+          NumberOfVACBans: player.NumberOfVACBans,
+          DaysSinceLastBan: player.DaysSinceLastBan,
+          NumberOfGameBans: player.NumberOfGameBans,
+          EconomyBan: player.EconomyBan,
+          isBanned: player.VACBanned,
+        });
+        tracker
+          .save()
+          .then((result) => {
+            addTrackersToDiscordUser(discordUser, result._id);
+            interaction.update({
+              content: sprintf(Messages.USER_TRACK_NOW, steamUser.personaname),
+              components: [],
+            });
+          })
+          .catch((error) => console.log(error));
+      }
     }
   }
 }
 
+async function getTrackersWithSteam(discordUser) {
+  return new Promise((resolve, reject) => {
+    Tracker.find({ _id: { $in: discordUser.trackers } })
+      .populate("steamUser")
+      .exec((err, trackers) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(trackers);
+      });
+  });
+}
+
 module.exports = {
   trackSteamUser,
+  getTrackersWithSteam,
 };
