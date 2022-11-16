@@ -22,11 +22,11 @@ module.exports = {
     ),
   async execute(interaction) {
     const isRegistered = await isRegisteredUser(interaction.user.id);
-    console.log("isRegistered: " + isRegistered);
-    if (!isRegistered) {
+    if (isRegistered) {
       const username = interaction.options.getString("username");
       const steamUser = await getSteamUser(username);
-      if (steamUser == 0) {
+      console.log("steamUser: " + steamUser);
+      if (steamUser == null) {
         await interaction.reply(Messages.USER_NOT_FOUND);
       } else {
         if (steamUser.communityvisibilitystate == 3) {

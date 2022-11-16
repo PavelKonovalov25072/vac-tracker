@@ -17,8 +17,10 @@ async function isRegisteredUser(discordUserID) {
 
 
 async function registerUser(user) {
+
   return new Promise((resolve, reject) => {
     const discordUser = new DiscordUser(user);
+    console.log("DİSCORDUSER: "+discordUser);
     discordUser.save((err) => {
       if (err) {
         reject(err);
@@ -32,7 +34,7 @@ async function getDiscordUserFromMongo(discordUserID) {
   const discordUser = await DiscordUser.findOne({
     id: discordUserID,
   }).populate("trackers");
-  return discordUser;
+  return discordUser; 
 }
 
 async function addTrackersToDiscordUser(discordUser, trackersID) {

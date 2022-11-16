@@ -17,6 +17,21 @@ function isNumeric(s) {
   return !isNaN(s - parseFloat(s));
 }
 
+async function getSteamIDFromVanity(vanity) {
+  return new Promise(async (resolve, reject) => {
+    const configuration = {
+      method: "get",
+      url: `http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key=${process.env.STEAM_API_KEY}&vanityurl=${vanity}`,
+    };
+    const response = await axios(configuration);
+    if (response.data.response.success == 1) {
+      resolve(response.data.response.steamid);
+    } else {
+      resolve(null);
+    }
+  });
+}
+
 async function getSteamID(steamString) {
   if (steamString.includes("https")) {
     if (steamString[-1] != "/") {
@@ -28,15 +43,8 @@ async function getSteamID(steamString) {
     }
     if (steamString.includes("id")) {
       steamString = steamString.split("/")[4];
-      const configuration = {
-        method: "get",
-        url: `http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key=${process.env.STEAM_API_KEY}&vanityurl=${steamString}`,
-      };
-      const response = await axios(configuration);
-      if (response.data.response.success == 1) {
-        return response.data.response.steamid;
-      }
-      return 0;
+      const steamID = await getSteamIDFromVanity(steamString);
+      return steamID;
     }
   }
 
@@ -48,49 +56,57 @@ async function getSteamID(steamString) {
     return steamidToSteam64(steamString);
   }
 
-  const configuration = {
-    method: "get",
-    url: `http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key=${process.env.STEAM_API_KEY}&vanityurl=${steamString}`,
-  };
-  const response = await axios(configuration);
-  if (response.data.response.success == 1) {
-    return response.data.response.steamid;
-  }
-  return 0;
+  const steamID = await getSteamIDFromVanity(steamString);
+  return steamID;
 }
 
 async function getSteamUser(userstring) {
-  const steamID = await getSteamID(userstring);
-  if (steamID == 0) {
-    return 0;
-  }
-  const configuration = {
-    method: "get",
-    url: `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${process.env.STEAM_API_KEY}&steamids=${steamID}`,
-  };
-  const response = await axios(configuration);
-  if (response.data.response.players.length == 0) {
-    return 0;
-  }
+  return new Promise(async (resolve, reject) => {
+    const steamID = await getSteamID(userstring);
+    if (steamID == null) {
+      resolve(null);
+    }
 
-  // gelen bütün veriyi steamuser modeline atıyoruz
-  const steamUser = new SteamUser(response.data.response.players[0]);
-  // daha sonra mevcut değilse mongo db ye kaydediyoruz
-  const steamUserFromMongo = await getSteamUserFromMongo(steamID);
-  if (steamUserFromMongo == null) {
-    await steamUser.save();
-  }
-  return steamUser; 
+    const configuration = {
+      method: "get",
+      url: `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${process.env.STEAM_API_KEY}&steamids=${steamID}`,
+    };
+    const response = await axios(configuration);
+    const steamUser = response.data.response.players[0];
+    if (steamUser == null) {
+      resolve(null);
+    }
+
+    const steamUserFromMongo = await getSteamUserFromMongo(steamID);
+    if (steamUserFromMongo == null) {
+      const newSteamUser = new SteamUser(steamUser);
+      newSteamUser.save((err) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(newSteamUser);
+      });
+    } else {
+      resolve(steamUserFromMongo);
+    }
+  });
 }
 
 async function getSteamUserFromMongo(steamID) {
-  const steamUser = await SteamUser.findOne({
-    steamid: steamID,
+  return new Promise((resolve, reject) => {
+    SteamUser.findOne({ steamid: steamID }).exec((err, steamUser) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(steamUser);
+    });
   });
-  return steamUser;
 }
 
 module.exports = {
   getSteamUser,
   getSteamUserFromMongo,
 };
+
+
+
