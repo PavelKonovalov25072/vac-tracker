@@ -9,3 +9,4 @@ exports.USER_TRACK_NOW = "Artık %s kullanıcısını takip ediyorsun.";
 exports.USER_TRACK_ALREADY = "Zaten %s kullanıcısını takip ediyorsun.";
 exports.COMMAND_ERROR = "Bir hata oluştu, lütfen daha sonra tekrar deneyin.";
 exports.USER_REGISTER_FAILED = "Kayıt olurken bir hata oluştu, lütfen daha sonra tekrar deneyin.";
+exports.USER_TRACK_FAILED = "Takip hatası, lütfen daha sonra tekrar deneyin.";

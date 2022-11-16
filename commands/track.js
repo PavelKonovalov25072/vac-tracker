@@ -25,7 +25,6 @@ module.exports = {
     if (isRegistered) {
       const username = interaction.options.getString("username");
       const steamUser = await getSteamUser(username);
-      console.log("steamUser: " + steamUser);
       if (steamUser == null) {
         await interaction.reply(Messages.USER_NOT_FOUND);
       } else {
@@ -39,7 +38,7 @@ module.exports = {
           await interaction.reply({
             content: sprintf(Messages.USER_FOUND, steamUser.personaname),
             components: [row],
-          }); 
+          });
         } else {
           await interaction.reply(
             sprintf(Messages.USER_PRIVATE, steamUser.personaname)
