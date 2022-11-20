@@ -5,6 +5,7 @@ const getTimeForLog = require("./common/time");
 const { getSteamUserFromMongo } = require("./actions/SteamUserActions");
 const { getDiscordUserFromMongo } = require("./actions/DiscordUserActions");
 const { trackSteamUser } = require("./actions/TrackerActions");
+const startService = require("./service/TrackService");
 const fs = require("node:fs");
 const path = require("node:path");
 const Messages = require("./constants/Messages");
@@ -73,4 +74,5 @@ client.on("interactionCreate", async (interaction) => {
 
 reloadCommands(commands);
 dbConnect();
+startService(client);
 client.login(process.env.DISCORD_TOKEN);

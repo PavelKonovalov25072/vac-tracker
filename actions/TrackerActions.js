@@ -19,6 +19,7 @@ async function getTrackerFromSteamID(steamID) {
 }
 
 async function trackSteamUser(steamUser, discordUser, interaction) {
+  // console.log(interaction);
   const tracker = await getTrackerFromSteamID(steamUser.steamid);
   if (tracker) {
     const isTrackerRegisteredToDiscordUser = discordUser.trackers.find(
@@ -60,6 +61,7 @@ async function trackSteamUser(steamUser, discordUser, interaction) {
         components: [],
       });
     } else {
+      // player.VACBanned
       if (player.VACBanned) {
         await interaction.update({
           content: sprintf(
@@ -81,6 +83,13 @@ async function trackSteamUser(steamUser, discordUser, interaction) {
           NumberOfGameBans: player.NumberOfGameBans,
           EconomyBan: player.EconomyBan,
           isBanned: player.VACBanned,
+          users: [
+            {
+              discordUser: discordUser._id,
+              channelId: interaction.channelId,
+              guildId: interaction.guildId,
+            },
+          ],
         });
         tracker
           .save()
@@ -93,6 +102,8 @@ async function trackSteamUser(steamUser, discordUser, interaction) {
           })
           .catch((error) => console.log(error));
       }
+
+
     }
   }
 }

@@ -16,3 +16,4 @@ exports.TRACKLIST_EMPTY = "Takip listeniz boş.";
 exports.TRACKLIST = "Takip listenizde %s kullanıcı var\n";
 exports.TRACKLIST_USER = "Steam Adı: %s [Click to see!](https://steamcommunity.com/profiles/%s)\n";
 exports.USER_BANNED_ALREADY = "[%s](https://steamcommunity.com/profiles/%s) kullanıcısı zaten banlı, takip etmeye gerek yok :) (%s gündür banlı)";
+exports.USER_BANNED = "Sana haberim var <@%s>, hileci %s ibnesini banlamışlar :) https://steamcommunity.com/profiles/%s";
