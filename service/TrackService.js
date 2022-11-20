@@ -3,9 +3,6 @@ const Tracker = require("../model/Tracker");
 require("dotenv").config();
 const Messages = require("../constants/Messages");
 var sprintf = require("sprintf-js").sprintf;
-// const { Client, GatewayIntentBits } = require("discord.js");
-// const client = new Client({ intents: [GatewayIntentBits.Guilds] });
-
 const TRACK_INTERVAL = 1000 * 60 * 60; // 1 hours
 const TRACK_INTERVAL_TEST = 1000 * 60; // 1 min
 
@@ -15,7 +12,7 @@ const SERVICE_INTERVAL_TEST = 1000 * 10; // 10 sec
 async function getDueTracks() {
   return new Promise((resolve, reject) => {
     Tracker.find({
-        isBanned: false,
+      isBanned: false,
     })
       .populate("steamUser users.discordUser")
       .exec((err, trackers) => {
@@ -25,18 +22,6 @@ async function getDueTracks() {
         resolve(trackers);
       });
   });
-}
-
-async function sendMessageToDiscordUser(message, channelId) {
-  var baseURL, headers, r;
-  baseURL = `https://discordapp.com/api/channels/${channelId}/messages`;
-  headers = {
-    Authorization: "Bot " + process.env.DISCORD_TOKEN,
-    // "User-Agent": "myBotThing (http://some.url, v0.1)",
-    "Content-Type": "application/json",
-  };
-  r = await axios.post(baseURL, { content: message }, { headers: headers });
-  //   console.log(getTimeForLog() + "Message sent to discord");
 }
 
 async function trackSteamUser(track, client) {
@@ -100,12 +85,13 @@ async function checkTracks(client) {
     dueTracks.forEach((track) => {
       trackSteamUser(track, client);
     });
+  } else {
+    console.log(getTimeForLog() + "No tracks to follow");
   }
 }
 
 function startService(client) {
   console.log(getTimeForLog() + "Starting Track Service");
-  checkTracks(client);
   setInterval(() => {
     console.log(getTimeForLog() + "Checking for due tracks");
     checkTracks(client);
