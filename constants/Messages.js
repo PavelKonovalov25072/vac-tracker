@@ -14,6 +14,11 @@ exports.USER_REGISTER_FAILED =
 exports.USER_TRACK_FAILED = "Takip hatası, lütfen daha sonra tekrar deneyin.";
 exports.TRACKLIST_EMPTY = "Takip listeniz boş.";
 exports.TRACKLIST = "Takip listenizde %s kullanıcı var\n";
-exports.TRACKLIST_USER = "Steam Adı: %s [Click to see!](https://steamcommunity.com/profiles/%s)\n";
-exports.USER_BANNED_ALREADY = "[%s](https://steamcommunity.com/profiles/%s) kullanıcısı zaten banlı, takip etmeye gerek yok :) (%s gündür banlı)";
-exports.USER_BANNED = "Sana haberim var <@%s>, hileci %s ibnesini banlamışlar :) https://steamcommunity.com/profiles/%s";
+exports.TRACKLIST_USER =
+  "%s [Click to see!](https://steamcommunity.com/profiles/%s)\n";
+exports.TRACKLIST_USER_BANNED =
+  "%s [Click to see!](https://steamcommunity.com/profiles/%s) (Banı %s önce yemiş xD)\n";
+exports.USER_BANNED_ALREADY =
+  "[%s](https://steamcommunity.com/profiles/%s) kullanıcısı zaten banlı, takip etmeye gerek yok :) (%s gündür banlı)";
+exports.USER_BANNED =
+  "Sana haberim var <@%s>, hileci %s ibnesini banlamışlar :) https://steamcommunity.com/profiles/%s";

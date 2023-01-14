@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const { isRegisteredUser } = require("../actions/DiscordUserActions");
 const { getTrackersWithSteam } = require("../actions/TrackerActions");
+const { getPassingTime } = require("../utils/DateUtils");
 var sprintf = require("sprintf-js").sprintf;
 const Messages = require("../constants/Messages");
 const CommandDescription = require("../constants/CommandDescription");
@@ -16,11 +17,22 @@ module.exports = {
       if (trackedUsers.length > 0) {
         var message = sprintf(Messages.TRACKLIST, trackedUsers.length);
         trackedUsers.forEach((user) => {
-          message += sprintf(
-            Messages.TRACKLIST_USER,
-            user.steamUser.personaname,
-            user.steamUser.steamid
-          );
+          if (user.isBanned == true) {
+
+
+            message += sprintf(
+              Messages.TRACKLIST_USER_BANNED,
+              user.steamUser.personaname,
+              user.steamUser.steamid,
+              getPassingTime(user.bannedAt)
+            );
+          } else {
+            message += sprintf(
+              Messages.TRACKLIST_USER,
+              user.steamUser.personaname,
+              user.steamUser.steamid
+            );
+          }
         });
         const exampleEmbed = new EmbedBuilder()
           .setColor(0x0099ff)
@@ -28,7 +40,8 @@ module.exports = {
           .setDescription(message)
           .setFooter({
             text: "SteamStats",
-            iconURL: "https://cdn.discordapp.com/avatars/984541763710632027/80256ec835ef3a394d1e6d0aa7399e08.png",
+            iconURL:
+              "https://cdn.discordapp.com/avatars/984541763710632027/80256ec835ef3a394d1e6d0aa7399e08.png",
           })
           .setTimestamp();
         await interaction.reply({ embeds: [exampleEmbed] });
