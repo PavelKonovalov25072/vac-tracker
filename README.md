@@ -144,7 +144,7 @@ Distributed under the MIT License. See `LICENSE.md` for more information.
 
 ## Contact
 
-Your Name - [@Afkborn26](https://twitter.com/Afkborn26) - kalaybilgehan60@gmail.com
+Bilgehan - [@Afkborn26](https://twitter.com/Afkborn26) - kalaybilgehan60@gmail.com
 
 Project Link: [https://github.com/Afkborn/vac-tracker](https://github.com/Afkborn/vac-tracker)
 
