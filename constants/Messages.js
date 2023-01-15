@@ -22,3 +22,7 @@ exports.USER_BANNED_ALREADY =
   "[%s](https://steamcommunity.com/profiles/%s) kullanıcısı zaten banlı, takip etmeye gerek yok :) (%s gündür banlı)";
 exports.USER_BANNED =
   "Sana haberim var <@%s>, hileci %s ibnesini banlamışlar :) https://steamcommunity.com/profiles/%s";
+exports.USER_UNTRACK_NOW = "%s kullanıcısını takip etmiyorsun.";
+exports.USER_UNTRACKED = "XXXX kullanıcısını takip etmeyi bıraktın.";
+exports.USER_UNTRACK_FAILED = "Takip etmeyi bırakırken bir hata oluştu.";
+exports.USER_NOT_TRACKED = "Zaten %s kullanıcısını takip etmiyorsun.";

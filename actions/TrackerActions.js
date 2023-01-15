@@ -4,7 +4,10 @@ const Messages = require("../constants/Messages");
 // const SteamUser = require("../model/SteamUser");
 // const DiscordUser = require("../model/DiscordUser");
 const Tracker = require("../model/Tracker");
-const { addTrackersToDiscordUser } = require("./DiscordUserActions");
+const {
+  addTrackersToDiscordUser,
+  deleteTrackersFromDiscordUser,
+} = require("./DiscordUserActions");
 var sprintf = require("sprintf-js").sprintf;
 
 async function getTrackerFromSteamID(steamID) {
@@ -102,8 +105,6 @@ async function trackSteamUser(steamUser, discordUser, interaction) {
           })
           .catch((error) => console.log(error));
       }
-
-
     }
   }
 }
@@ -121,7 +122,38 @@ async function getTrackersWithSteam(discordUser) {
   });
 }
 
+async function getTrackerObjectFromMongo_WithSteam(trackerID) {
+  return new Promise((resolve, reject) => {
+    Tracker.findOne({ _id: trackerID })
+      .populate("steamUser")
+      .exec((err, tracker) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(tracker);
+      });
+  });
+}
+
+async function unTrackSteamUser(discordUser, tracker, interaction) {
+  deleteTrackersFromDiscordUser(discordUser, tracker._id).then((result) => {
+    if (result) {
+      interaction.update({
+        content: sprintf(
+          Messages.USER_UNTRACK_NOW,
+          tracker.steamUser.personaname
+        ),
+        components: [],
+      });
+    } else {
+      console.log("Failed to delete from DiscordUser");
+    }
+  });
+}
+
 module.exports = {
   trackSteamUser,
   getTrackersWithSteam,
+  unTrackSteamUser,
+  getTrackerObjectFromMongo_WithSteam,
 };

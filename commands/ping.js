@@ -10,6 +10,7 @@ module.exports = {
   async execute(interaction) {
     const isRegistered = await isRegisteredUser(interaction.user.id);
     if (isRegistered) {
+      
       await interaction.reply("Pong!");
     } else {
       await interaction.reply(Messages.USER_NOT_REGISTERED);

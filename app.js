@@ -4,7 +4,7 @@ const reloadCommands = require("./reloadCommands");
 const getTimeForLog = require("./common/time");
 const { getSteamUserFromMongo } = require("./actions/SteamUserActions");
 const { getDiscordUserFromMongo } = require("./actions/DiscordUserActions");
-const { trackSteamUser } = require("./actions/TrackerActions");
+const { trackSteamUser, unTrackSteamUser, getTrackerObjectFromMongo_WithSteam } = require("./actions/TrackerActions");
 const startService = require("./service/TrackService");
 const fs = require("node:fs");
 const path = require("node:path");
@@ -60,6 +60,12 @@ client.on("interactionCreate", async (interaction) => {
         const steamUser = await getSteamUserFromMongo(steamId);
         const discordUser = await getDiscordUserFromMongo(i.user.id);
         await trackSteamUser(steamUser, discordUser, i);
+      }
+      else if (i.customId.startsWith("unTrackButton_")) {
+        const trackerID = i.customId.split("_")[1];
+        const tracker = await getTrackerObjectFromMongo_WithSteam(trackerID);
+        const discordUser = await getDiscordUserFromMongo(i.user.id);
+        await unTrackSteamUser(discordUser, tracker, i);
       }
     });
     await command.execute(interaction);

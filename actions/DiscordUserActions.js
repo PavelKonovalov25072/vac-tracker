@@ -1,5 +1,11 @@
 const DiscordUser = require("../model/DiscordUser");
 
+
+/**
+ * isRegisteredUser fonksiyonu ile kullanıcının kayıtlı olup olmadığını kontrol ediyoruz, return olarak varsa discordUser yoksa false döndürüyor.
+ * @param {String} discordUserID
+ * @returns {Promise}
+ */
 async function isRegisteredUser(discordUserID) {
   return new Promise((resolve, reject) => {
     DiscordUser.findOne({ id: discordUserID }, (err, discordUser) => {
@@ -53,9 +59,22 @@ async function addTrackersToDiscordUser(discordUser, trackersID) {
   });
 }
 
+async function deleteTrackersFromDiscordUser(discordUser, trackersID) {
+  return new Promise((resolve, reject) => {
+    discordUser.trackers.pull(trackersID);
+    discordUser.save((err) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(discordUser);
+    });
+  });
+}
+
 module.exports = {
   isRegisteredUser,
   registerUser,
   getDiscordUserFromMongo,
   addTrackersToDiscordUser,
+  deleteTrackersFromDiscordUser,
 };
