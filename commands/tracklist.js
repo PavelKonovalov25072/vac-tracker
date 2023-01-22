@@ -18,8 +18,6 @@ module.exports = {
         var message = sprintf(Messages.TRACKLIST, trackedUsers.length);
         trackedUsers.forEach((user) => {
           if (user.isBanned == true) {
-
-
             message += sprintf(
               Messages.TRACKLIST_USER_BANNED,
               user.steamUser.personaname,

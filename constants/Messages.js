@@ -29,3 +29,5 @@ exports.USER_NOT_TRACKED = "Zaten %s kullanıcısını takip etmiyorsun.";
 exports.BOT_INFO =
   "Merhaba, ben %s, sunucularda steam hesaplarının ban durmunu takip ederek hizmet veriyorum. Şimdiye kadar %s kullanıcıyı takip ettim, %s kullanıcının banlanmasını fark edip, sana bildirdim :)\nKayıt olmak için /register, kanalına davet etmek için /invite komutunu kullanabilirsin.";
 exports.INVITE_TEXT = "Beni sunucuna davet etmek için tıkla!";
+exports.BANNEDLİST_HEADER = "Şimdiye kadar %s kullanıcı banlanmış :)\n";
+exports.BANNEDLİST_USER = "%s [Click to see!](https://steamcommunity.com/profiles/%s) (%s önce)\n";

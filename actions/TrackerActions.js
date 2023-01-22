@@ -162,10 +162,22 @@ async function getCountOfBannedTrackers(){
   });
 }
 
+async function getBannedSteamUsers(){
+  return new Promise((resolve, reject) => {
+    Tracker.find({ isBanned: true }).populate("steamUser").exec((err, trackers) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(trackers);
+    });
+  });
+}
+
 module.exports = {
   trackSteamUser,
   getTrackersWithSteam,
   unTrackSteamUser,
   getTrackerObjectFromMongo_WithSteam,
   getCountOfBannedTrackers,
+  getBannedSteamUsers
 };

@@ -8,3 +8,4 @@ exports.UNTRACK_DESC = "Takip etmeyi bırakmak için kullanılır";
 exports.UNTRACK_USER_DESC = "Takip etmeyi bırakmak istediğiniz kullanıcı adını girin";
 exports.INFO_DESC = "Bot hakkında bilgi verir";
 exports.INVITE_DESC = "Botu sunucunuza davet etmek için kullanılır";
+exports.BANNEDLIST_DESC = "Uygulama başından beri ban yiyen kullanıcıları listeler";
