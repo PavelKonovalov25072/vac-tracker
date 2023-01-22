@@ -21,6 +21,11 @@ async function isRegisteredUser(discordUserID) {
   });
 }
 
+/**
+ * registerUser fonksiyonu ile kullanıcıyı kayıt ediyoruz, return olarak discordUser döndürüyor.
+ * @param {user} user 
+ * @returns {Promise}
+ */
 async function registerUser(user) {
   return new Promise((resolve, reject) => {
     const discordUser = new DiscordUser(user);
@@ -34,6 +39,11 @@ async function registerUser(user) {
   });
 }
 
+/**
+ * getDiscordUserFromMongo fonksiyonu ile kullanıcının kayıtlı olduğu discordUser nesnesini döndürüyoruz.
+ * @param {discordUserID} discordUserID 
+ * @returns {Promise}
+ */
 async function getDiscordUserFromMongo(discordUserID) {
   return new Promise((resolve, reject) => {
     DiscordUser.findOne({ id: discordUserID })

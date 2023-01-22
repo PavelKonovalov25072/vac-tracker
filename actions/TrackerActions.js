@@ -151,9 +151,21 @@ async function unTrackSteamUser(discordUser, tracker, interaction) {
   });
 }
 
+async function getCountOfBannedTrackers(){
+  return new Promise((resolve, reject) => {
+    Tracker.find({ isBanned: true }).countDocuments((err, count) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(count);
+    });
+  });
+}
+
 module.exports = {
   trackSteamUser,
   getTrackersWithSteam,
   unTrackSteamUser,
   getTrackerObjectFromMongo_WithSteam,
+  getCountOfBannedTrackers,
 };

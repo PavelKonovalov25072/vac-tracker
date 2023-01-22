@@ -26,3 +26,5 @@ exports.USER_UNTRACK_NOW = "%s kullanıcısını takip etmiyorsun.";
 exports.USER_UNTRACKED = "XXXX kullanıcısını takip etmeyi bıraktın.";
 exports.USER_UNTRACK_FAILED = "Takip etmeyi bırakırken bir hata oluştu.";
 exports.USER_NOT_TRACKED = "Zaten %s kullanıcısını takip etmiyorsun.";
+exports.BOT_INFO =
+  "Merhaba, ben %s, sunucularda steam hesaplarının ban durmunu takip ederek hizmet veriyorum. Şimdiye kadar %s kullanıcıyı takip ettim, %s kullanıcının banlanmasını fark edip, sana bildirdim :)\nKayıt olmak için /register, kanalına davet etmek için /invite komutunu kullanabilirsin.";

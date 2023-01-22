@@ -103,9 +103,22 @@ async function getSteamUserFromMongo(steamID) {
   });
 }
 
+
+async function getCountOfSteamUsers() {
+  return new Promise((resolve, reject) => {
+    SteamUser.countDocuments({}, (err, count) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(count);
+    });
+  });
+}
+
 module.exports = {
   getSteamUser,
   getSteamUserFromMongo,
+  getCountOfSteamUsers,
 };
 
 
