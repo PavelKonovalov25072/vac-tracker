@@ -4,13 +4,22 @@ const reloadCommands = require("./reloadCommands");
 const getTimeForLog = require("./common/time");
 const { getSteamUserFromMongo } = require("./actions/SteamUserActions");
 const { getDiscordUserFromMongo } = require("./actions/DiscordUserActions");
-const { trackSteamUser, unTrackSteamUser, getTrackerObjectFromMongo_WithSteam } = require("./actions/TrackerActions");
+const {
+  trackSteamUser,
+  unTrackSteamUser,
+  getTrackerObjectFromMongo_WithSteam,
+} = require("./actions/TrackerActions");
 const startService = require("./service/TrackService");
 const fs = require("node:fs");
 const path = require("node:path");
 const Messages = require("./constants/Messages");
 // var sprintf = require("sprintf-js").sprintf;
-const { Client, GatewayIntentBits, Collection } = require("discord.js");
+const {
+  Client,
+  GatewayIntentBits,
+  Collection,
+  ActivityType,
+} = require("discord.js");
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 client.commands = new Collection();
 const commandsPath = path.join(__dirname, "commands");
@@ -36,6 +45,10 @@ for (const file of commandFiles) {
 
 client.on("ready", () => {
   console.log(getTimeForLog() + `Logged in as ${client.user.tag}!`);
+  client.user.setPresence({
+    activities: [{ name: 'Steam hesaplarını', type: ActivityType.Watching }],
+    status: "online", // dnd (do not disturb), idle, invisible, online
+  });
 });
 
 client.on("interactionCreate", async (interaction) => {
@@ -60,8 +73,7 @@ client.on("interactionCreate", async (interaction) => {
         const steamUser = await getSteamUserFromMongo(steamId);
         const discordUser = await getDiscordUserFromMongo(i.user.id);
         await trackSteamUser(steamUser, discordUser, i);
-      }
-      else if (i.customId.startsWith("unTrackButton_")) {
+      } else if (i.customId.startsWith("unTrackButton_")) {
         const trackerID = i.customId.split("_")[1];
         const tracker = await getTrackerObjectFromMongo_WithSteam(trackerID);
         const discordUser = await getDiscordUserFromMongo(i.user.id);
