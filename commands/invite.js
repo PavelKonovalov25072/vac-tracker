@@ -6,7 +6,7 @@ module.exports = {
     .setName("invite")
     .setDescription(CommandDescription.INVITE_DESC),
   async execute(interaction) {
-    const exampleEmbed = new EmbedBuilder()
+    const invitEmbed = new EmbedBuilder()
       .setColor(0x0099ff)
       .setTitle("Davet etmek için tıkla!")
       .setURL(
@@ -19,6 +19,6 @@ module.exports = {
           "https://cdn.discordapp.com/avatars/984541763710632027/80256ec835ef3a394d1e6d0aa7399e08.png",
       })
       .setTimestamp();
-    await interaction.reply({ embeds: [exampleEmbed] });
+    await interaction.reply({ embeds: [invitEmbed] });
   },
 };

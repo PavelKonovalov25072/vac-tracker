@@ -31,3 +31,5 @@ exports.BOT_INFO =
 exports.INVITE_TEXT = "Beni sunucuna davet etmek için tıkla!";
 exports.BANNEDLİST_HEADER = "Şimdiye kadar %s kullanıcı banlanmış :)\n";
 exports.BANNEDLİST_USER = "%s [Click to see!](https://steamcommunity.com/profiles/%s) (%s önce)\n";
+exports.USER_TRACKLIST_EMPTY = "%s kullanıcısının takip listesi boş.";
+exports.MYRANK_DESC = "Şu an %s kullanıcıyı takip ediyorsun. Bu kullanıcıların %s tanesi banlanmış. Bu da senin başarı oranının %s olduğunu gösteriyor :) Bu oran ile sıralaman %s\n";

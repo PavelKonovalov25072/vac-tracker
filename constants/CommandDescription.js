@@ -9,3 +9,4 @@ exports.UNTRACK_USER_DESC = "Takip etmeyi bırakmak istediğiniz kullanıcı ad�
 exports.INFO_DESC = "Bot hakkında bilgi verir";
 exports.INVITE_DESC = "Botu sunucunuza davet etmek için kullanılır";
 exports.BANNEDLIST_DESC = "Uygulama başından beri ban yiyen kullanıcıları listeler";
+exports.MYRANK_DESC = "Sıralamanızı gösterir";
