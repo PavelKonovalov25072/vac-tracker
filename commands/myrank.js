@@ -23,8 +23,6 @@ module.exports = {
       const bannedAccountCount = trackedAccounts.filter(
         (account) => account.isBanned == true
       ).length;
-      // 22 accounts, 2 banned
-      // 2 * 100 / 22
       const successRate = Math.round(
         (bannedAccountCount * 100) / trackedAccounts.length
       );
@@ -32,8 +30,7 @@ module.exports = {
         Messages.MYRANK_DESC,
         trackedAccounts.length,
         bannedAccountCount,
-        successRate + "%",
-        "0" // TODO: 
+        successRate + "%"
       );
       const rankEmbed = new EmbedBuilder()
         .setColor(0x0099ff)
