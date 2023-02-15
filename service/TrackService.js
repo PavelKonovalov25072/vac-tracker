@@ -3,10 +3,11 @@ const Tracker = require("../model/Tracker");
 require("dotenv").config();
 const Messages = require("../constants/Messages");
 var sprintf = require("sprintf-js").sprintf;
-const TRACK_INTERVAL = 1000 * 60 * 60; // 1 hours
+
+const TRACK_INTERVAL = 10000 * 60 * 60; // 10 hours
 const TRACK_INTERVAL_TEST = 1000 * 60; // 1 min
 
-const SERVICE_INTERVAL = 1000 * 60; // 1 minutes
+const SERVICE_INTERVAL = 10000 * 60; // 10 minutes
 const SERVICE_INTERVAL_TEST = 1000 * 10; // 10 sec
 
 async function getDueTracks() {
