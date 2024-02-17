@@ -60,7 +60,7 @@ async function getSteamID(steamString) {
   return steamID;
 }
 
-async function getSteamUser(userstring) {
+async function getSteamUser(userstring, group) {
   return new Promise(async (resolve, reject) => {
     const steamID = await getSteamID(userstring);
     if (steamID == null) {
@@ -73,6 +73,7 @@ async function getSteamUser(userstring) {
     };
     const response = await axios(configuration);
     const steamUser = response.data.response.players[0];
+    steamUser.group = group;
     if (steamUser == null) {
       resolve(null);
     }

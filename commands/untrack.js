@@ -17,27 +17,27 @@ module.exports = {
     .setDescription(CommandDescription.UNTRACK_DESC)
     .addStringOption((option) =>
       option
-        .setName("username")
+        .setName("id")
         .setDescription(CommandDescription.UNTRACK_USER_DESC)
         .setRequired(true)
     ),
   async execute(interaction) {
     const isRegistered = await isRegisteredUser(interaction.user.id);
     if (isRegistered) {
-      const username = interaction.options.getString("username");
-      const trackedUsers = await getTrackersWithSteam(isRegistered);
+      const id = interaction.options.getString("id");
+      const trackedUsers = await getTrackersWithSteam();
       const trackedUser = trackedUsers.find(
-        (user) => user.steamUser.personaname == username
+        (user) => user.steamUser.steamid == id
       );
-      if (trackedUser) {
+      if (trackedUser) {  
         const row = new ActionRowBuilder().addComponents(
           new ButtonBuilder()
             .setCustomId("unTrackButton_" + trackedUser._id)
-            .setLabel("Takipden Çık!")
+            .setLabel("Перестать отслеживать")
             .setStyle(ButtonStyle.Danger)
         );
         await interaction.reply({
-          content: sprintf("Takipten çıkmak istediğine emin misin?"),
+          content: sprintf("Вы уверены, что хотите перестать отслеживать?"),
           components: [row],
         });
       } else {

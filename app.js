@@ -46,7 +46,7 @@ for (const file of commandFiles) {
 client.on("ready", () => {
   console.log(getTimeForLog() + `Logged in as ${client.user.tag}!`);
   client.user.setPresence({
-    activities: [{ name: 'Steam hesaplarını', type: ActivityType.Watching }],
+    activities: [{ name: 'Steam', type: ActivityType.Watching }],
     status: "online", // dnd (do not disturb), idle, invisible, online
   });
 });
@@ -71,13 +71,11 @@ client.on("interactionCreate", async (interaction) => {
       if (i.customId.startsWith("trackButton_")) {
         const steamId = i.customId.split("_")[1];
         const steamUser = await getSteamUserFromMongo(steamId);
-        const discordUser = await getDiscordUserFromMongo(i.user.id);
-        await trackSteamUser(steamUser, discordUser, i);
+        await trackSteamUser(steamUser, i);
       } else if (i.customId.startsWith("unTrackButton_")) {
-        const trackerID = i.customId.split("_")[1];
-        const tracker = await getTrackerObjectFromMongo_WithSteam(trackerID);
-        const discordUser = await getDiscordUserFromMongo(i.user.id);
-        await unTrackSteamUser(discordUser, tracker, i);
+        const trackId = i.customId.split("_")[1];
+        const track = await getTrackerObjectFromMongo_WithSteam(trackId);
+        await unTrackSteamUser(track, i);
       }
     });
     await command.execute(interaction);

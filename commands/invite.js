@@ -8,7 +8,7 @@ module.exports = {
   async execute(interaction) {
     const invitEmbed = new EmbedBuilder()
       .setColor(0x0099ff)
-      .setTitle("Davet etmek için tıkla!")
+      .setTitle("Нажмите, чтобы пригласить!")
       .setURL(
         "https://discord.com/api/oauth2/authorize?client_id=984541763710632027&permissions=8&scope=bot"
       )

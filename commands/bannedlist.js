@@ -22,7 +22,7 @@ module.exports = {
     });
     const exampleEmbed = new EmbedBuilder()
       .setColor(0x0099ff)
-      .setTitle("SteamStats'te uygulama başından beri ban yiyen kullanıcılar")
+      .setTitle("Пользователи, использующие прикладное программное обеспечение в SteamStats")
       .setDescription(message)
       .setFooter({
         text: "SteamStats",

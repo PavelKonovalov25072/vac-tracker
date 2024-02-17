@@ -1,35 +1,36 @@
-//User
 exports.USER_NOT_REGISTERED =
-  "Kayıtlı değilsin, kayıt olmak için /register komutunu kullanabilirsin.";
-exports.USER_ALREADY_REGISTERED = "Zaten kayıtlısın %s!";
-exports.USER_REGISTERED = "Artık seni tanıyorum %s !";
-exports.USER_NOT_FOUND = "Kullanıcı bulunamadı.";
-exports.USER_PRIVATE = "Kullanıcı %s profilini gizli tutuyor.";
-exports.USER_FOUND = "Kullanıcı Adı :  %s";
-exports.USER_TRACK_NOW = "Artık %s kullanıcısını takip ediyorsun.";
-exports.USER_TRACK_ALREADY = "Zaten %s kullanıcısını takip ediyorsun.";
-exports.COMMAND_ERROR = "Bir hata oluştu, lütfen daha sonra tekrar deneyin.";
+  "Если вы не зарегистрированы, вы можете использовать команду /register для регистрации.";
+exports.USER_ALREADY_REGISTERED = "Вы уже зарегистрированы %s!";
+exports.USER_REGISTERED = "Теперь я тебя знаю %s !";
+exports.USER_NOT_FOUND = "Пользователь не найден.";
+exports.USER_PRIVATE = "Пользователь %s скрывает свой профиль.";
+exports.USER_FOUND = "Имя пользователя: %s";
+exports.USER_TRACK_NOW = "Теперь вы отслеживаете пользователя %s.";
+exports.USER_TRACK_ALREADY = "Вы уже отслеживаете пользователя %s.";
+exports.COMMAND_ERROR = "Произошла ошибка, попробуйте снова позже.";
 exports.USER_REGISTER_FAILED =
-  "Kayıt olurken bir hata oluştu, lütfen daha sonra tekrar deneyin.";
-exports.USER_TRACK_FAILED = "Takip hatası, lütfen daha sonra tekrar deneyin.";
-exports.TRACKLIST_EMPTY = "Takip listeniz boş.";
-exports.TRACKLIST = "Takip listenizde %s kullanıcı var\n";
+  "При регистрации произошла ошибка, попробуйте снова позже.";
+exports.USER_TRACK_FAILED = "Ошибка отслеживания, попробуйте снова позже.";
+exports.TRACKLIST_EMPTY = "Ваш список отслеживания пуст.";
+exports.TRACKLIST = "В вашем списке отслеживания %s пользователей\n";
 exports.TRACKLIST_USER =
-  "%s [Click to see!](https://steamcommunity.com/profiles/%s)\n";
+  "%s [Нажмите, чтобы посмотреть!](https://steamcommunity.com/profiles/%s)\n";
 exports.TRACKLIST_USER_BANNED =
-  "%s [Click to see!](https://steamcommunity.com/profiles/%s) (Banı %s önce yemiş xD)\n";
+  "%s [Нажмите, чтобы посмотреть!](https://steamcommunity.com/profiles/%s) (Забанен %s дней назад)\n";
 exports.USER_BANNED_ALREADY =
-  "[%s](https://steamcommunity.com/profiles/%s) kullanıcısı zaten banlı, takip etmeye gerek yok :) (%s gündür banlı)";
+  "[%s](https://steamcommunity.com/profiles/%s) пользователь из группы %s (Забанен %s дней)";
 exports.USER_BANNED =
-  "Sana haberim var <@%s>, hileci %s ibnesini banlamışlar :) https://steamcommunity.com/profiles/%s";
-exports.USER_UNTRACK_NOW = "%s kullanıcısını takip etmiyorsun.";
-exports.USER_UNTRACKED = "XXXX kullanıcısını takip etmeyi bıraktın.";
-exports.USER_UNTRACK_FAILED = "Takip etmeyi bırakırken bir hata oluştu.";
-exports.USER_NOT_TRACKED = "Zaten %s kullanıcısını takip etmiyorsun.";
+  "У меня есть новости для вас <@%s>, этот парень -  %s получил VAC, группа %s https://steamcommunity.com/profiles/%s";
+exports.USER_BANNEDCHANEL =
+"У меня есть новости для вас, этот парень -  %s получил VAC, группа %s https://steamcommunity.com/profiles/%s";
+exports.USER_UNTRACK_NOW = "Вы больше не отслеживаете пользователя %s.";
+exports.USER_UNTRACKED = "Вы прекратили отслеживать пользователя XXXX.";
+exports.USER_UNTRACK_FAILED = "При остановке отслеживания произошла ошибка.";
+exports.USER_NOT_TRACKED = "Вы не отслеживаете пользователя %s.";
 exports.BOT_INFO =
-  "Merhaba, ben %s, sunucularda steam hesaplarının ban durmunu takip ederek hizmet veriyorum. Şimdiye kadar %s kullanıcıyı takip ettim, %s kullanıcının banlanmasını fark edip, sana bildirdim :)\nKayıt olmak için /register, kanalına davet etmek için /invite komutunu kullanabilirsin.";
-exports.INVITE_TEXT = "Beni sunucuna davet etmek için tıkla!";
-exports.BANNEDLİST_HEADER = "Şimdiye kadar %s kullanıcı banlanmış :)\n";
-exports.BANNEDLİST_USER = "%s [Click to see!](https://steamcommunity.com/profiles/%s) (%s önce)\n";
-exports.USER_TRACKLIST_EMPTY = "%s kullanıcısının takip listesi boş.";
-exports.MYRANK_DESC = "Şu an %s kullanıcıyı takip ediyorsun. Bu kullanıcıların %s tanesi banlanmış. Bu da senin başarı oranının %s olduğunu gösteriyor :)\n";
+  "Привет, я %s, я предоставляю услугу отслеживания статуса бана аккаунтов Steam на серверах. До сих пор я отследил %s пользователей, заметил бан %s пользователей и сообщил вам :)\nЧтобы зарегистрироваться, используйте команду /register, чтобы пригласить меня в канал, используйте команду /invite.";
+exports.INVITE_TEXT = "Нажмите, чтобы пригласить меня на свой сервер!";
+exports.BANNEDLİST_HEADER = "До сих пор забанено %s пользователей :)\n";
+exports.BANNEDLİST_USER = "%s [Нажмите, чтобы посмотреть!](https://steamcommunity.com/profiles/%s) (%s назад)\n";
+exports.USER_TRACKLIST_EMPTY = "Список отслеживания пользователя %s пуст.";
+exports.MYRANK_DESC = "В настоящее время вы отслеживаете %s пользователей. %s из этих пользователей были забанены. Это показывает, что ваш процент успеха составляет %s :)\n";

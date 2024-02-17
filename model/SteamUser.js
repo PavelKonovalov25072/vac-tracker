@@ -74,6 +74,9 @@ const SteamUserSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  group: {
+    type: Number
+  }
   
 });
 

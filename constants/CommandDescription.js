@@ -1,12 +1,12 @@
 //Ping
-exports.PING_DESC = "Pong cevaplar, ping ölçmek için";
-exports.REGISTER_DESC = "Kayıt olmak için kullanılır";
-exports.TRACK_DESC = "Bir Steam kullanıcısını takip etmek için kullanılır";
-exports.TRACK_USER_DESC = "Takip etmek istediğiniz kullanıcı adını girin";
-exports.TRACKLIST_DESC = "Takip ettiğiniz kullanıcıları listeler";
-exports.UNTRACK_DESC = "Takip etmeyi bırakmak için kullanılır";
-exports.UNTRACK_USER_DESC = "Takip etmeyi bırakmak istediğiniz kullanıcı adını girin";
-exports.INFO_DESC = "Bot hakkında bilgi verir";
-exports.INVITE_DESC = "Botu sunucunuza davet etmek için kullanılır";
-exports.BANNEDLIST_DESC = "Uygulama başından beri ban yiyen kullanıcıları listeler";
-exports.MYRANK_DESC = "Sıralamanızı gösterir";
+exports.PING_DESC = "Используется для измерения пинга, ответ на пинг";
+exports.REGISTER_DESC = "Используется для регистрации";
+exports.TRACK_DESC = "Используется для отслеживания пользователя Steam";
+exports.TRACK_USER_DESC = "Введите имя пользователя, которого вы хотите отслеживать";
+exports.TRACKLIST_DESC = "Список пользователей, которых вы отслеживаете";
+exports.UNTRACK_DESC = "Используется для прекращения отслеживания";
+exports.UNTRACK_USER_DESC = "Введите имя пользователя, отслеживание которого вы хотите прекратить";
+exports.INFO_DESC = "Предоставляет информацию о боте";
+exports.INVITE_DESC = "Используется для приглашения бота на ваш сервер";
+exports.BANNEDLIST_DESC = "Список пользователей, которые были забанены с момента запуска приложения";
+exports.MYRANK_DESC = "Показывает ваш рейтинг";

@@ -5,14 +5,13 @@ const Messages = require("../constants/Messages");
 // const DiscordUser = require("../model/DiscordUser");
 const Tracker = require("../model/Tracker");
 const {
-  addTrackersToDiscordUser,
-  deleteTrackersFromDiscordUser,
+  deleteTracker,
 } = require("./DiscordUserActions");
 var sprintf = require("sprintf-js").sprintf;
 
-async function getTrackerFromSteamID(steamID) {
+async function getTrackerFromSteamID(steamId) {
   return new Promise((resolve, reject) => {
-    Tracker.findOne({ steamid: steamID }).exec((err, tracker) => {
+    Tracker.findOne({ steamid: steamId }).exec((err, tracker) => {
       if (err) {
         reject(err);
       }
@@ -21,32 +20,14 @@ async function getTrackerFromSteamID(steamID) {
   });
 }
 
-async function trackSteamUser(steamUser, discordUser, interaction) {
+async function trackSteamUser(steamUser, interaction) {
   // console.log(interaction);
   const tracker = await getTrackerFromSteamID(steamUser.steamid);
   if (tracker) {
-    const isTrackerRegisteredToDiscordUser = discordUser.trackers.find(
-      (tracker) => tracker.steamid == steamUser.steamid
-    );
-    if (isTrackerRegisteredToDiscordUser) {
-      await interaction.update({
-        content: sprintf(Messages.USER_TRACK_ALREADY, steamUser.personaname),
-        components: [],
-      });
-    } else {
-      const result = await addTrackersToDiscordUser(discordUser, tracker._id);
-      if (result) {
-        await interaction.update({
-          content: sprintf(Messages.USER_TRACK_NOW, steamUser.personaname),
-          components: [],
-        });
-      } else {
-        await interaction.update({
-          content: Messages.USER_TRACK_FAILED,
-          components: [],
-        });
-      }
-    }
+    await interaction.update({
+      content: sprintf(Messages.USER_TRACK_ALREADY, steamUser.personaname),
+      components: [],
+    });
   } else {
     const configuration = {
       method: "get",
@@ -54,64 +35,46 @@ async function trackSteamUser(steamUser, discordUser, interaction) {
     };
     const response = await axios(configuration);
     const player = response.data.players[0];
-
-    const isTrackerRegisteredToDiscordUser = discordUser.trackers.find(
-      (tracker) => tracker.steamid == steamUser.steamid
-    );
-    if (isTrackerRegisteredToDiscordUser) {
+    // player.VACBanned
+    if (player.VACBanned) {
       await interaction.update({
-        content: sprintf(Messages.USER_TRACK_ALREADY, steamUser.personaname),
+        content: sprintf(
+          Messages.USER_BANNED_ALREADY,
+          steamUser.personaname,
+          steamUser.steamid,
+          steamUser.group,
+          player.DaysSinceLastBan
+        ),
         components: [],
       });
     } else {
-      // player.VACBanned
-      if (player.VACBanned) {
-        await interaction.update({
-          content: sprintf(
-            Messages.USER_BANNED_ALREADY,
-            steamUser.personaname,
-            steamUser.steamid,
-            player.DaysSinceLastBan
-          ),
-          components: [],
-        });
-      } else {
-        const tracker = new Tracker({
-          steamUser: steamUser._id,
-          steamid: steamUser.steamid,
-          CommunityBanned: player.CommunityBanned,
-          VACBanned: player.VACBanned,
-          NumberOfVACBans: player.NumberOfVACBans,
-          DaysSinceLastBan: player.DaysSinceLastBan,
-          NumberOfGameBans: player.NumberOfGameBans,
-          EconomyBan: player.EconomyBan,
-          isBanned: player.VACBanned,
-          users: [
-            {
-              discordUser: discordUser._id,
-              channelId: interaction.channelId,
-              guildId: interaction.guildId,
-            },
-          ],
-        });
-        tracker
-          .save()
-          .then((result) => {
-            addTrackersToDiscordUser(discordUser, result._id);
-            interaction.update({
-              content: sprintf(Messages.USER_TRACK_NOW, steamUser.personaname),
-              components: [],
-            });
-          })
-          .catch((error) => console.log(error));
-      }
+      const tracker = new Tracker({
+        steamUser: steamUser._id,
+        steamid: steamUser.steamid,
+        CommunityBanned: player.CommunityBanned,
+        VACBanned: player.VACBanned,
+        NumberOfVACBans: player.NumberOfVACBans,
+        DaysSinceLastBan: player.DaysSinceLastBan,
+        NumberOfGameBans: player.NumberOfGameBans,
+        EconomyBan: player.EconomyBan,
+        isBanned: player.VACBanned,
+      });
+      tracker
+        .save()
+        .then((result) => {
+          interaction.update({
+            content: sprintf(Messages.USER_TRACK_NOW, steamUser.personaname),
+            components: [],
+          });
+        })
+        .catch((error) => console.log(error));
     }
   }
 }
 
-async function getTrackersWithSteam(discordUser) {
+async function getTrackersWithSteam() {
   return new Promise((resolve, reject) => {
-    Tracker.find({ _id: { $in: discordUser.trackers } })
+    Tracker.find({})
       .populate("steamUser")
       .exec((err, trackers) => {
         if (err) {
@@ -135,20 +98,21 @@ async function getTrackerObjectFromMongo_WithSteam(trackerID) {
   });
 }
 
-async function unTrackSteamUser(discordUser, tracker, interaction) {
-  deleteTrackersFromDiscordUser(discordUser, tracker._id).then((result) => {
+async function unTrackSteamUser(track, interaction) {
+  deleteTracker(track).then((result) => {
     if (result) {
       interaction.update({
         content: sprintf(
           Messages.USER_UNTRACK_NOW,
-          tracker.steamUser.personaname
+          track.steamUser.personaname
         ),
         components: [],
       });
     } else {
-      console.log("Failed to delete from DiscordUser");
+      console.log("Failed to delete");
     }
   });
+  
 }
 
 async function getCountOfBannedTrackers(){

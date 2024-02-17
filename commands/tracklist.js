@@ -13,9 +13,9 @@ module.exports = {
   async execute(interaction) {
     const isRegistered = await isRegisteredUser(interaction.user.id);
     if (isRegistered) {
-      const trackedUsers = await getTrackersWithSteam(isRegistered);
+      const trackedUsers = await getTrackersWithSteam();
       if (trackedUsers.length > 0) {
-        var message = sprintf(Messages.TRACKLIST, trackedUsers.length);
+        let message = sprintf(Messages.TRACKLIST, trackedUsers.length);
         trackedUsers.forEach((user) => {
           if (user.isBanned == true) {
             message += sprintf(
@@ -34,7 +34,7 @@ module.exports = {
         });
         const trackListEmbed = new EmbedBuilder()
           .setColor(0x0099ff)
-          .setTitle(isRegistered.username + "'ın takip ettiği kullanıcılar")
+          .setTitle(`Список пользователей`)
           .setDescription(message)
           .setFooter({
             text: "SteamStats",

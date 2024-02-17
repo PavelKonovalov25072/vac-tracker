@@ -53,22 +53,6 @@ const TrackerSchema = new mongoose.Schema({
     type: Date,
     default: null,
   },
-  users: [
-    {
-      discordUser: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "DiscordUser",
-      },
-      channelId: {
-        type: String,
-        required: true,
-      },
-      guildId : {
-        type: String,
-        required: true,
-      }
-    },
-  ],
 });
 
 module.exports = mongoose.model("Tracker", TrackerSchema);

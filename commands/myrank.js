@@ -34,7 +34,7 @@ module.exports = {
       );
       const rankEmbed = new EmbedBuilder()
         .setColor(0x0099ff)
-        .setTitle(user.username + "'ın SteamStats Rütbesi")
+        .setTitle(user.username + "рейтинг SteamStats")
         .setDescription(desc)
         .setFooter({
           text: "SteamStats",

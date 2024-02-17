@@ -9,17 +9,17 @@ function getPassingTime(time) {
   );
   var seconds = Math.floor(((Date.now() - time) % (1000 * 60)) / 1000);
   if (days > 0) {
-    text += days + " gün ";
+    text += days + " день ";
     return text;
   }
   if (hours > 0) {
-    text += hours + " saat ";
+    text += hours + " час ";
   }
   if (minutes > 0) {
-    text += minutes + " dakika ";
+    text += minutes + " минута ";
   }
   if (seconds > 0) {
-    text += seconds + " saniye ";
+    text += seconds + " секунда ";
   }
   return text;
 }

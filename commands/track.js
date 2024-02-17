@@ -16,15 +16,22 @@ module.exports = {
     .setDescription(CommandDescription.TRACK_DESC)
     .addStringOption((option) =>
       option
-        .setName("username")
+        .setName("id")
         .setDescription(CommandDescription.TRACK_USER_DESC)
+        .setRequired(true)
+    )
+    .addStringOption((option) =>
+      option
+        .setName("group")
+        .setDescription("Добавьте группу для отслеживания")
         .setRequired(true)
     ),
   async execute(interaction) {
     const isRegistered = await isRegisteredUser(interaction.user.id);
     if (isRegistered) {
-      const username = interaction.options.getString("username");
-      const steamUser = await getSteamUser(username);
+      const id = interaction.options.getString("id");
+      const group = interaction.options.getString("group");
+      const steamUser = await getSteamUser(id, group);
       if (steamUser == null) {
         await interaction.reply(Messages.USER_NOT_FOUND);
       } else {
@@ -32,7 +39,7 @@ module.exports = {
           const row = new ActionRowBuilder().addComponents(
             new ButtonBuilder()
               .setCustomId("trackButton_" + steamUser.steamid)
-              .setLabel("Takip Et!")
+              .setLabel("Отслеживать")
               .setStyle(ButtonStyle.Success)
           );
           await interaction.reply({
