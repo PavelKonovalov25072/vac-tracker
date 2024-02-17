@@ -60,14 +60,11 @@ client.on("interactionCreate", async (interaction) => {
     return;
   }
   try {
-    // const filter = (i) => i.customId === "primary";
     const collector = interaction.channel.createMessageComponentCollector({
-      // filter,
-      time: 10000, // 10 saniye içinde tıklanması lazım yoksa kapatıyor
+      time: 10000, // 10 seconds to click, otherwise close
     });
 
     collector.on("collect", async (i) => {
-      // i.customId starts with "trackButton_"
       if (i.customId.startsWith("trackButton_")) {
         const steamId = i.customId.split("_")[1];
         const steamUser = await getSteamUserFromMongo(steamId);
