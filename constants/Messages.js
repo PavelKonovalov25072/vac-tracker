@@ -16,9 +16,9 @@ exports.TRACKLIST = "В вашем списке отслеживания %s по
 exports.TRACKLIST_USER =
   "%s [Нажмите, чтобы посмотреть!](https://steamcommunity.com/profiles/%s)\n";
 exports.TRACKLIST_USER_BANNED =
-  "%s [Нажмите, чтобы посмотреть!](https://steamcommunity.com/profiles/%s) (Забанен %s дней назад)\n";
+  "%s [Нажмите, чтобы посмотреть!](https://steamcommunity.com/profiles/%s) (Забанен %s назад)\n";
 exports.USER_BANNED_ALREADY =
-  "[%s](https://steamcommunity.com/profiles/%s) пользователь из группы %s (Забанен %s дней)";
+  "[%s](https://steamcommunity.com/profiles/%s) пользователь из группы %s (Забанен %s)";
 exports.USER_BANNED =
   "У меня есть новости для вас <@%s>, этот парень -  %s получил VAC, группа %s https://steamcommunity.com/profiles/%s";
 exports.USER_BANNEDCHANEL =
