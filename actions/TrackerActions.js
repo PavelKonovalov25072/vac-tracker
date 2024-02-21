@@ -6,6 +6,7 @@ const Messages = require("../constants/Messages");
 const Tracker = require("../model/Tracker");
 const {
   deleteTracker,
+  deleteAllTrackers,
 } = require("./DiscordUserActions");
 var sprintf = require("sprintf-js").sprintf;
 
@@ -112,7 +113,21 @@ async function unTrackSteamUser(track, interaction) {
       console.log("Failed to delete");
     }
   });
-  
+}
+
+async function unTrackAllSteamUsers(interaction) {
+  deleteAllTrackers().then((result) => {
+    if (result) {
+      interaction.update({
+        content: sprintf(
+          Messages.USER_UNTRACKALL_NOW,
+        ),
+        components: [],
+      });
+    } else {
+      console.log("Failed to delete");
+    }
+  });
 }
 
 async function getCountOfBannedTrackers(){
@@ -143,5 +158,6 @@ module.exports = {
   unTrackSteamUser,
   getTrackerObjectFromMongo_WithSteam,
   getCountOfBannedTrackers,
-  getBannedSteamUsers
+  getBannedSteamUsers,
+  unTrackAllSteamUsers,
 };

@@ -8,6 +8,7 @@ const {
   trackSteamUser,
   unTrackSteamUser,
   getTrackerObjectFromMongo_WithSteam,
+  unTrackAllSteamUsers,
 } = require("./actions/TrackerActions");
 const startService = require("./service/TrackService");
 const fs = require("node:fs");
@@ -73,6 +74,8 @@ client.on("interactionCreate", async (interaction) => {
         const trackId = i.customId.split("_")[1];
         const track = await getTrackerObjectFromMongo_WithSteam(trackId);
         await unTrackSteamUser(track, i);
+      } else if (i.customId.startsWith("unTrackAllButton_")) {
+        await unTrackAllSteamUsers(i);
       }
     });
     await command.execute(interaction);

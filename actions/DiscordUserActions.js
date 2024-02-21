@@ -68,9 +68,21 @@ async function deleteTracker(track){
   })
 }
 
+async function deleteAllTrackers(){
+  return new Promise((resolve, reject) => {
+    Tracker.deleteMany().exec((err) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(true);
+    }) 
+  })
+}
+
 module.exports = {
   isRegisteredUser,
   registerUser,
   getDiscordUserFromMongo,
   deleteTracker,
+  deleteAllTrackers,
 };

@@ -24,6 +24,7 @@ exports.USER_BANNED =
 exports.USER_BANNEDCHANEL =
 "У меня есть новости для вас, этот парень -  %s получил VAC, группа %s https://steamcommunity.com/profiles/%s";
 exports.USER_UNTRACK_NOW = "Вы больше не отслеживаете пользователя %s.";
+exports.USER_UNTRACKALL_NOW = "Вы больше не отслеживаете ни одного пользователя";
 exports.USER_UNTRACKED = "Вы прекратили отслеживать пользователя XXXX.";
 exports.USER_UNTRACK_FAILED = "При остановке отслеживания произошла ошибка.";
 exports.USER_NOT_TRACKED = "Вы не отслеживаете пользователя %s.";
